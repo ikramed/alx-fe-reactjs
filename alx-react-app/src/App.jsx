@@ -3,25 +3,38 @@ import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
 
-// Import WelcomeMessage from Task 1
+// Task 1: WelcomeMessage
 import WelcomeMessage from './components/WelcomeMessage';
 
-// Import new components from Task 2
+// Task 2: Specific components
 import Header from './components/Header';
 import MainContent from './components/MainContent';
 import Footer from './components/Footer';
+
+// Task 3: UserProfile
+import UserProfile from './components/UserProfile';
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <div className="App">
+      {/* Task 1 */}
       <WelcomeMessage />
 
+      {/* Task 2 */}
       <Header />
       <MainContent />
       <Footer />
 
+      {/* Task 3: UserProfile with props */}
+      <UserProfile 
+        name="Alice" 
+        age={25} 
+        bio="Loves hiking and photography" 
+      />
+
+      {/* Logos section */}
       <div className="logos">
         <a href="https://vite.dev" target="_blank" rel="noreferrer">
           <img src={viteLogo} className="logo" alt="Vite logo" />
@@ -31,6 +44,7 @@ function App() {
         </a>
       </div>
 
+      {/* Counter card */}
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
