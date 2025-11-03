@@ -20,25 +20,15 @@ import Counter from './components/Counter';
 function App() {
   return (
     <div className="App">
-      {/* Task 1: WelcomeMessage */}
       <WelcomeMessage />
-
-      {/* Task 2: Layout Components */}
       <Header />
       <MainContent />
       <Footer />
+      <UserProfile name="Alice" age={25} bio="Loves hiking and photography" />
 
-      {/* Task 3: UserProfile with props */}
-      <UserProfile 
-        name="Alice" 
-        age={25} 
-        bio="Loves hiking and photography" 
-      />
-
-      {/* Task 4: Counter */}
+      {/* Counter component */}
       <Counter />
 
-      {/* Logos section */}
       <div className="logos">
         <a href="https://vite.dev" target="_blank" rel="noreferrer">
           <img src={viteLogo} className="logo" alt="Vite logo" />
