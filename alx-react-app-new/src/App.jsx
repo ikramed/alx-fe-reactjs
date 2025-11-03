@@ -14,15 +14,16 @@ import Footer from './components/Footer';
 // Task 3: UserProfile
 import UserProfile from './components/UserProfile';
 
-function App() {
-  const [count, setCount] = useState(0);
+// Task 4: Counter
+import Counter from './components/Counter';
 
+function App() {
   return (
     <div className="App">
-      {/* Task 1 */}
+      {/* Task 1: WelcomeMessage */}
       <WelcomeMessage />
 
-      {/* Task 2 */}
+      {/* Task 2: Layout Components */}
       <Header />
       <MainContent />
       <Footer />
@@ -34,6 +35,9 @@ function App() {
         bio="Loves hiking and photography" 
       />
 
+      {/* Task 4: Counter */}
+      <Counter />
+
       {/* Logos section */}
       <div className="logos">
         <a href="https://vite.dev" target="_blank" rel="noreferrer">
@@ -42,16 +46,6 @@ function App() {
         <a href="https://react.dev" target="_blank" rel="noreferrer">
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
-      </div>
-
-      {/* Counter card */}
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
       </div>
 
       <p className="read-the-docs">
