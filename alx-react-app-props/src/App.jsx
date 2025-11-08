@@ -1,6 +1,6 @@
-import React from 'react';
-import ProfilePage from './components/ProfilePage';
-import { UserContext } from './UserContext';
+import { useState } from "react";
+import ProfilePage from "./components/ProfilePage";
+import UserContext from "./UserContext";
 
 function App() {
   const userData = { name: "Jane Doe", email: "jane.doe@example.com" };
