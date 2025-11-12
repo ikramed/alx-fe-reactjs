@@ -1,28 +1,18 @@
-import React, { useEffect } from "react";
-import { useRecipeStore } from "../recipeStore";
+import { useRecipeStore } from '../recipeStore';
 
-const RecommendationsList = () => {
+export const RecommendationsList = () => {
   const { recommendations, generateRecommendations } = useRecipeStore();
-
-  useEffect(() => {
-    generateRecommendations();
-  }, [generateRecommendations]);
 
   return (
     <div>
       <h2>Recommended Recipes</h2>
-      {recommendations.length > 0 ? (
-        recommendations.map((recipe) => (
-          <div key={recipe.id}>
-            <h3>{recipe.title}</h3>
-            <p>{recipe.description}</p>
-          </div>
-        ))
-      ) : (
-        <p>No recommendations yet.</p>
-      )}
+      <button onClick={generateRecommendations}>Generate</button>
+      {recommendations.map((r) => (
+        <div key={r.id}>
+          <h3>{r.title}</h3>
+          <p>{r.description}</p>
+        </div>
+      ))}
     </div>
   );
 };
-
-export default RecommendationsList;
