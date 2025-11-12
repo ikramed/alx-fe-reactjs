@@ -1,22 +1,27 @@
-import { useRecipeStore } from '../recipeStore';
+import React, { useEffect } from "react";
+import { useRecipeStore } from "./recipeStore";
 
-export const FavoritesList = () => {
-  const { recipes, favorites } = useRecipeStore((state) => ({
-    recipes: state.recipes,
-    favorites: state.favorites,
-  }));
+const FavoritesList = () => {
+  const favorites = useRecipeStore((state) => state.favorites);
 
-  const favRecipes = recipes.filter((r) => favorites.includes(r.id));
+  useEffect(() => {
+    console.log("Favorites updated:", favorites);
+  }, [favorites]);
 
   return (
-    <div>
-      <h2>My Favorites</h2>
-      {favRecipes.map((r) => (
-        <div key={r.id}>
-          <h3>{r.title}</h3>
-          <p>{r.description}</p>
-        </div>
-      ))}
+    <div style={{ marginTop: "20px" }}>
+      <h2>💖 Favorites</h2>
+      {favorites.length === 0 ? (
+        <p>No favorites yet 😢</p>
+      ) : (
+        <ul>
+          {favorites.map((recipe, index) => (
+            <li key={index}>{recipe.title}</li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
+
+export default FavoritesList;

@@ -1,13 +1,13 @@
 import React from "react";
-import { useRecipeStore } from "../store/recipeStore";
-import DeleteRecipeButton from "./DeleteRecipeButton";
 import { Link } from "react-router-dom";
+import { useRecipeStore } from "./recipeStore";
 
 const RecipeList = () => {
   const filteredRecipes = useRecipeStore((state) => state.filteredRecipes);
+  const toggleFavorite = useRecipeStore((state) => state.toggleFavorite);
 
   if (filteredRecipes.length === 0) {
-    return <p style={{ textAlign: "center" }}>No recipes found 😢</p>;
+    return <p>No recipes found 😢</p>;
   }
 
   return (
@@ -18,8 +18,7 @@ const RecipeList = () => {
           <p>{recipe.description}</p>
           <div style={{ display: "flex", gap: "10px" }}>
             <Link to={`/recipe/${recipe.title}`}>👁️ View</Link>
-            <Link to={`/edit/${recipe.title}`}>✏️ Edit</Link>
-            <DeleteRecipeButton title={recipe.title} />
+            <button onClick={() => toggleFavorite(recipe)}>💖 Favorite</button>
           </div>
         </div>
       ))}
