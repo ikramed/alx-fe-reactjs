@@ -5,7 +5,7 @@ function DeleteRecipeButton({ recipeId }) {
 
   return (
     <button onClick={() => deleteRecipe(recipeId)}>
-      Delete Recipe
+      Delete
     </button>
   );
 }
