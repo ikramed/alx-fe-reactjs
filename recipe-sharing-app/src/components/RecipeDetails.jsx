@@ -1,24 +1,33 @@
-import useRecipeStore from "./recipeStore";
-import EditRecipeForm from "./EditRecipeForm";
-import DeleteRecipeButton from "./DeleteRecipeButton";
+import React from "react";
 import { useParams } from "react-router-dom";
+import { useRecipeStore } from "../store/recipeStore";
 
-function RecipeDetails() {
-  const { id } = useParams();
+const RecipeDetail = () => {
+  const { title } = useParams();
   const recipe = useRecipeStore((state) =>
-    state.recipes.find((r) => r.id === Number(id))
+    state.recipes.find((r) => r.title === title)
   );
 
-  if (!recipe) return <p>Recipe not found!</p>;
+  if (!recipe) {
+    return <p style={{ textAlign: "center" }}>Recipe not found 😢</p>;
+  }
 
   return (
-    <div>
-      <h1>{recipe.title}</h1>
+    <div style={{ padding: "20px" }}>
+      <h2>{recipe.title}</h2>
       <p>{recipe.description}</p>
-      <EditRecipeForm recipe={recipe} />
-      <DeleteRecipeButton recipeId={recipe.id} />
+      {recipe.ingredients && (
+        <div>
+          <h4>Ingredients:</h4>
+          <ul>
+            {recipe.ingredients.map((ing, index) => (
+              <li key={index}>{ing}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
-}
+};
 
-export default RecipeDetails;
+export default RecipeDetail;
