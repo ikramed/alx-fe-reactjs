@@ -1,7 +1,6 @@
-
+// src/App.jsx
 import React from "react";
-import SearchBar from "./components/SearchBar";
-import UserList from "./components/UserList";
+import Search from "./components/Search";
 
 function App() {
   return (
@@ -18,8 +17,7 @@ function App() {
       </header>
 
       <main className="max-w-4xl mx-auto px-4">
-        <SearchBar />
-        <UserList />
+        <Search />
       </main>
     </div>
   );
