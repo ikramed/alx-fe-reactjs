@@ -1,7 +1,7 @@
-// src/services/githubService.js
+
 import axios from "axios";
 
-// Task 1: fetch single user
+
 export const fetchUserData = async (username) => {
   try {
     const response = await axios.get(`https://api.github.com/users/${username}`);
@@ -11,7 +11,7 @@ export const fetchUserData = async (username) => {
   }
 };
 
-// Task 2: advanced search users
+
 export const searchUsers = async ({ username, location, minRepos, page = 1 }) => {
   try {
     let query = "";
@@ -21,11 +21,13 @@ export const searchUsers = async ({ username, location, minRepos, page = 1 }) =>
     if (minRepos) query += (query ? " " : "") + `repos:>=${minRepos}`;
 
     if (!query) return { items: [], total_count: 0 };
-
+ 
     const response = await axios.get(
       `https://api.github.com/search/users?q=${encodeURIComponent(query)}&per_page=10&page=${page}`
     );
 
     return response.data;
   } catch (error) {
-    throw
+    throw error;
+  }
+};

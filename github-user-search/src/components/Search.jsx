@@ -1,38 +1,44 @@
 // src/components/Search.jsx
 import React, { useState } from "react";
-import { searchUsers } from "../services/githubService";
+import { fetchUserData, searchUsers } from "../services/githubService";
 
 const Search = () => {
   const [username, setUsername] = useState("");
   const [location, setLocation] = useState("");
   const [minRepos, setMinRepos] = useState("");
-  const [users, setUsers] = useState([]);        // لائحة المستخدمين
-  const [loading, setLoading] = useState(false); // حالة التحميل
-  const [error, setError] = useState(false);     // حالة الخطأ
-  const [page, setPage] = useState(1);           // الصفحة الحالية
-  const [totalCount, setTotalCount] = useState(0); // عدد النتائج الكلي
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
 
   const handleSearch = async (event) => {
     event.preventDefault();
-
-    // بحث جديد → رجع الصفحة لـ 1 وفرغ النتائج القديمة
     setPage(1);
     setError(false);
     setUsers([]);
     setTotalCount(0);
 
-    await fetchUsers(1, true);
+    setLoading(true);
+
+    try {
+      if (username && !location && !minRepos) {
+        // Task 1: fetch single user
+        const user = await fetchUserData(username.trim());
+        setUsers([user]); // خليها array باش تستعملي map
+        setTotalCount(1);
+      } else {
+        // Task 2: advanced search
+        await fetchUsers(1, true);
+      }
+    } catch (err) {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const fetchUsers = async (pageNumber = 1, isNewSearch = false) => {
-    // ما نديروش request إلا كان كلشي inputs خاوي
-    if (!username.trim() && !location.trim() && !minRepos.trim()) {
-      return;
-    }
-
-    setLoading(true);
-    setError(false);
-
     try {
       const data = await searchUsers({
         username: username.trim(),
@@ -52,8 +58,6 @@ const Search = () => {
       setPage(pageNumber);
     } catch (err) {
       setError(true);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -64,7 +68,6 @@ const Search = () => {
 
   return (
     <div className="max-w-2xl mx-auto mt-8 bg-white rounded-lg shadow p-6">
-      {/* فورم البحث المتقدم */}
       <form onSubmit={handleSearch} className="grid gap-4 md:grid-cols-3 mb-4">
         <div>
           <label className="block text-sm font-medium mb-1">Username</label>
@@ -112,23 +115,14 @@ const Search = () => {
         </div>
       </form>
 
-      {/* حالة التحميل */}
       {loading && <p className="text-sm text-gray-600">Loading...</p>}
-
-      {/* حالة الخطأ */}
       {error && !loading && (
-        <p className="text-sm text-red-600">
-          Looks like we cant find the user
-        </p>
+        <p className="text-sm text-red-600">Looks like we cant find the user</p>
       )}
 
-      {/* النتائج */}
       {!loading && !error && users.length > 0 && (
         <div className="mt-4">
-          <p className="text-sm text-gray-600 mb-2">
-            Found {totalCount} users
-          </p>
-
+          <p className="text-sm text-gray-600 mb-2">Found {totalCount} users</p>
           <ul className="space-y-3">
             {users.map((user) => (
               <li
@@ -150,12 +144,19 @@ const Search = () => {
                   >
                     View GitHub Profile
                   </a>
+                  {user.location && (
+                    <p className="text-xs text-gray-500">Location: {user.location}</p>
+                  )}
+                  {user.public_repos != null && (
+                    <p className="text-xs text-gray-500">
+                      Repositories: {user.public_repos}
+                    </p>
+                  )}
                 </div>
               </li>
             ))}
           </ul>
 
-          {/* Load more */}
           {users.length < totalCount && (
             <div className="mt-4 flex justify-center">
               <button
@@ -170,7 +171,6 @@ const Search = () => {
         </div>
       )}
 
-    
       {!loading && !error && users.length === 0 && totalCount === 0 && (
         <p className="text-sm text-gray-500">
           Enter at least one search criteria to find GitHub users.
