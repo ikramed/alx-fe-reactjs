@@ -13,6 +13,12 @@ dist-ssr
 *.local
 .env
 
+## Live Demo
+
+The application is deployed on Vercel:
+
+https://alx-fe-reactjs-vercel.vercel.app
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
