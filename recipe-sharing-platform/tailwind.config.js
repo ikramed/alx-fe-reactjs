@@ -1,5 +1,6 @@
 export default {
   content: [
+    "./public/index.html",
     "./index.html",
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
