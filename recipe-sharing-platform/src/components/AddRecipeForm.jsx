@@ -4,27 +4,34 @@ function AddRecipeForm() {
   const [title, setTitle] = useState("");
   const [ingredients, setIngredients] = useState("");
   const [steps, setSteps] = useState("");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    const newErrors = {};
+
+    if (!title) newErrors.title = "Title is required";
+    if (!ingredients) newErrors.ingredients = "Ingredients are required";
+    if (!steps) newErrors.steps = "Steps are required";
+
+    if (ingredients.split(",").length < 2) {
+      newErrors.ingredients = "Enter at least two ingredients";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!title || !ingredients || !steps) {
-      setError("All fields are required");
-      return;
-    }
+    if (!validate()) return;
 
-    if (ingredients.split(",").length < 2) {
-      setError("Please enter at least two ingredients");
-      return;
-    }
-
-    setError("");
     alert("Recipe submitted successfully!");
 
     setTitle("");
     setIngredients("");
     setSteps("");
+    setErrors({});
   };
 
   return (
@@ -37,31 +44,32 @@ function AddRecipeForm() {
           Add New Recipe
         </h2>
 
-        {error && (
-          <p className="text-red-500 mb-3 text-sm text-center">{error}</p>
-        )}
-
         <input
           type="text"
           placeholder="Recipe Title"
-          className="w-full mb-4 p-2 border rounded"
+          className="w-full mb-2 p-2 border rounded"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
+        {errors.title && <p className="text-red-500 text-sm mb-2">{errors.title}</p>}
 
         <textarea
           placeholder="Ingredients (comma separated)"
-          className="w-full mb-4 p-2 border rounded"
+          className="w-full mb-2 p-2 border rounded"
           value={ingredients}
           onChange={(e) => setIngredients(e.target.value)}
         />
+        {errors.ingredients && (
+          <p className="text-red-500 text-sm mb-2">{errors.ingredients}</p>
+        )}
 
         <textarea
           placeholder="Preparation Steps"
-          className="w-full mb-4 p-2 border rounded"
+          className="w-full mb-2 p-2 border rounded"
           value={steps}
           onChange={(e) => setSteps(e.target.value)}
         />
+        {errors.steps && <p className="text-red-500 text-sm mb-2">{errors.steps}</p>}
 
         <button
           type="submit"
