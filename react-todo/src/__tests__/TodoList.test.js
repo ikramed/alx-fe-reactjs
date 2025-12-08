@@ -4,15 +4,15 @@ import AddTodoForm from "../components/AddTodoForm";
 
 test("renders initial todos", () => {
   render(<TodoList />);
-  const todoElements = screen.getAllByText(/Todo/i);
+  const todoElements = screen.getAllByText(/Learn React|Build a Todo App/i);
   expect(todoElements.length).toBeGreaterThan(0);
 });
 
 test("adds a new todo", () => {
-  render(<AddTodoForm />);
-  const input = screen.getByPlaceholderText("Add new todo");
-  const button = screen.getByText("Add");
+  const { getByPlaceholderText, getByText } = render(<TodoList />);
+  const input = getByPlaceholderText("Add new todo");
+  const button = getByText("Add");
   fireEvent.change(input, { target: { value: "Test Todo" } });
   fireEvent.click(button);
-  expect(screen.getByText("Test Todo")).toBeInTheDocument();
+  expect(getByText("Test Todo")).toBeInTheDocument();
 });
