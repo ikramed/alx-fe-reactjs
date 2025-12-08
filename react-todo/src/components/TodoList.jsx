@@ -39,7 +39,14 @@ function TodoList() {
             }}
           >
             {todo.text}{" "}
-            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                deleteTodo(todo.id);
+              }}
+            >
+              Delete
+            </button>
           </li>
         ))}
       </ul>
