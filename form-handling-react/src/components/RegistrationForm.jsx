@@ -4,17 +4,29 @@ export default function RegistrationForm() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});  
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!username || !email || !password) {
-      setError("All fields are required");
+    let newErrors = {};
+
+    if (!username) {
+      newErrors.username = "Username is required";
+    }
+    if (!email) {                   
+      newErrors.email = "Email is required";
+    }
+    if (!password) {                 
+      newErrors.password = "Password is required";
+    }
+
+    setErrors(newErrors);             
+
+    if (Object.keys(newErrors).length > 0) {
       return;
     }
 
-    setError("");
     console.log({ username, email, password });
   };
 
@@ -22,34 +34,34 @@ export default function RegistrationForm() {
     <form onSubmit={handleSubmit}>
       <h2>Controlled Registration Form</h2>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {/* Errors UI */}
+      {errors.username && <p style={{ color: "red" }}>{errors.username}</p>}
+      {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
+      {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
 
       <input
         name="username"
         placeholder="Username"
-        value={username}        
+        value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
-
       <br /><br />
 
       <input
         name="email"
         placeholder="Email"
-        value={email}           
+        value={email}   
         onChange={(e) => setEmail(e.target.value)}
       />
-
       <br /><br />
 
       <input
         name="password"
         type="password"
         placeholder="Password"
-        value={password}       
+        value={password}  
         onChange={(e) => setPassword(e.target.value)}
       />
-
       <br /><br />
 
       <button type="submit">Register</button>
