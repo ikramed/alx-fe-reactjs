@@ -1,4 +1,3 @@
-// TodoList.jsx
 import React, { useState } from "react";
 import AddTodoForm from "./AddTodoForm";
 
@@ -9,6 +8,7 @@ function TodoList() {
   ]);
 
   const addTodo = (text) => {
+    if (!text) return;
     setTodos([...todos, { id: Date.now(), text, completed: false }]);
   };
 
@@ -32,12 +32,13 @@ function TodoList() {
         {todos.map((todo) => (
           <li
             key={todo.id}
+            onClick={() => toggleTodo(todo.id)}
             style={{
               textDecoration: todo.completed ? "line-through" : "none",
               cursor: "pointer",
             }}
           >
-            <span onClick={() => toggleTodo(todo.id)}>{todo.text}</span>
+            {todo.text}{" "}
             <button onClick={() => deleteTodo(todo.id)}>Delete</button>
           </li>
         ))}
