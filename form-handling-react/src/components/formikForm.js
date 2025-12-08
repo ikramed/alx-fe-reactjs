@@ -5,7 +5,6 @@ import * as Yup from "yup";
 
 const validationSchema = Yup.object({
   username: Yup.string()
-    .min(3, "Username must be at least 3 characters")
     .required("Username is required"),
 
   email: Yup.string()
@@ -31,6 +30,7 @@ export default function FormikForm() {
         }}
       >
         <Form className="space-y-4">
+
           {/* Username */}
           <div>
             <label className="block font-medium">Username</label>
