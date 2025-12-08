@@ -1,31 +1,33 @@
+// src/components/PostsComponent.jsx
+import React from "react";
 import { useQuery } from "react-query";
 
-export default function PostsComponent() {
-  const fetchPosts = async () => {
-    const res = await fetch("https://jsonplaceholder.typicode.com/posts");
-    return res.json();
-  };
+const fetchPosts = async () => {
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+  if (!res.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return res.json();
+};
 
-  const { data, isLoading, error, refetch } = useQuery("posts", fetchPosts);
+function PostsComponent() {
+  const { data, isLoading, isError, error, refetch } = useQuery("posts", fetchPosts);
 
   if (isLoading) return <p>Loading posts...</p>;
-  if (error) return <p>Error loading posts</p>;
+  if (isError) return <p>Error: {error.message}</p>;
 
   return (
-    <div>
-      <h2>Posts List</h2>
-
+    <div className="p-4">
       <button
-        onClick={() => refetch()}
-        style={{ padding: "8px 12px", marginBottom: "12px" }}
+        onClick={refetch}
+        className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
       >
         Refetch Posts
       </button>
-
       <ul>
         {data.map((post) => (
-          <li key={post.id} style={{ marginBottom: "10px" }}>
-            <strong>{post.title}</strong>
+          <li key={post.id} className="mb-2 border p-2 rounded shadow-sm">
+            <h3 className="font-bold">{post.title}</h3>
             <p>{post.body}</p>
           </li>
         ))}
@@ -33,3 +35,5 @@ export default function PostsComponent() {
     </div>
   );
 }
+
+export default PostsComponent;
