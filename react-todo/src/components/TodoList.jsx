@@ -1,27 +1,27 @@
-// src/TodoList.jsx
 import React, { useState } from 'react';
 
 function TodoList() {
   const [todos, setTodos] = useState([
-    { text: 'Learn React', done: false },
-    { text: 'Build Todo App', done: false },
+    { id: 1, text: 'Learn React' },
+    { id: 2, text: 'Build Todo App' }
   ]);
+
   const [newTodo, setNewTodo] = useState('');
 
   const addTodo = () => {
-    if (newTodo.trim() === '') return;
-    setTodos([...todos, { text: newTodo, done: false }]);
+    if (!newTodo) return;
+    setTodos([...todos, { id: Date.now(), text: newTodo }]);
     setNewTodo('');
   };
 
-  const toggleTodo = (index) => {
-    const newTodos = [...todos];
-    newTodos[index].done = !newTodos[index].done;
-    setTodos(newTodos);
+  const toggleTodo = (id) => {
+    setTodos(todos.map(todo => 
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    ));
   };
 
-  const deleteTodo = (index) => {
-    setTodos(todos.filter((_, i) => i !== index));
+  const deleteTodo = (id) => {
+    setTodos(todos.filter(todo => todo.id !== id));
   };
 
   return (
@@ -33,18 +33,18 @@ function TodoList() {
       />
       <button onClick={addTodo}>Add</button>
       <ul>
-        {todos.map((todo, index) => (
-          <li key={index}>
+        {todos.map(todo => (
+          <li key={todo.id}>
             <span
-              onClick={() => toggleTodo(index)}
+              onClick={() => toggleTodo(todo.id)}
               style={{
-                textDecoration: todo.done ? 'line-through' : 'none',
-                cursor: 'pointer',
+                textDecoration: todo.completed ? 'line-through' : 'none',
+                cursor: 'pointer'
               }}
             >
               {todo.text}
             </span>
-            <button onClick={() => deleteTodo(index)}>Delete</button>
+            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
           </li>
         ))}
       </ul>
