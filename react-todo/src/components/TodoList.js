@@ -8,13 +8,16 @@ const TodoList = () => {
   ]);
 
   const addTodo = (text) => {
-    setTodos([...todos, { id: Date.now(), text, completed: false }]);
+    const newTodo = { id: Date.now(), text, completed: false };
+    setTodos([...todos, newTodo]);
   };
 
   const toggleTodo = (id) => {
-    setTodos(todos.map(todo =>
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    ));
+    setTodos(
+      todos.map(todo =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
+    );
   };
 
   const deleteTodo = (id) => {
@@ -27,10 +30,12 @@ const TodoList = () => {
       <AddTodoForm addTodo={addTodo} />
       <ul>
         {todos.map(todo => (
-          <li key={todo.id} onClick={() => toggleTodo(todo.id)}
-              style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
-            {todo.text}
-            <button onClick={(e) => { e.stopPropagation(); deleteTodo(todo.id); }}>Delete</button>
+          <li
+            key={todo.id}
+            onClick={() => toggleTodo(todo.id)}
+            style={{ textDecoration: todo.completed ? 'line-through' : 'none', cursor: 'pointer' }}
+          >
+            {todo.text} <button onClick={(e) => { e.stopPropagation(); deleteTodo(todo.id); }}>Delete</button>
           </li>
         ))}
       </ul>
